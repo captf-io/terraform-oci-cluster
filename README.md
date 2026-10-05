@@ -13,7 +13,35 @@ pools need to them through `exports`.
 
 Image: `ghcr.io/captf-io/oci-cluster`. Contract:
 [cluster role](https://captf.io/docs/module-author/contract/v1alpha1/cluster.html).
-Design decisions: [DESIGN.md](DESIGN.md).
+Design decisions: [DESIGN.md](https://github.com/captf-io/terraform-oci-cluster/blob/main/DESIGN.md).
+
+## Usage
+
+CAPTF runs this module from the module image `ghcr.io/captf-io/oci-cluster`: set the image on
+a `TerraformCluster`'s `spec.source.image`, and the controller renders every
+input. The module is also published to the Terraform Registry as
+`captf-io/cluster/oci` and can be called directly:
+
+```hcl
+module "cluster" {
+  source  = "captf-io/cluster/oci"
+  version = "~> 0.1"
+
+  # The contract inputs the controller would render (captf_contract,
+  # captf_cluster, captf_object, captf_tags, ...; see Inputs), and any
+  # user variables.
+}
+```
+
+Called directly, the module is a CAPTF root module first:
+
+- it configures its own `provider "oci"` block, so the calling
+  module cannot use `count`, `for_each` or `depends_on` on it, and the
+  provider takes its credentials from the environment (see Identity
+  Secret);
+- its providers are pinned to exact versions (`versions.tf`), which the
+  calling configuration has to accept;
+- you set the `captf_*` inputs yourself.
 
 ## What it creates
 
@@ -176,7 +204,7 @@ An externally managed `TerraformCluster` gives machines and pools `{}`; set
 ## Identity Secret
 
 See the [oci-modules README](https://github.com/captf-io/oci-modules#using-it) and
-[`examples/identity.yaml`](examples/identity.yaml): `OCI_TENANCY_OCID`,
+[`examples/identity.yaml`](https://github.com/captf-io/terraform-oci-cluster/blob/main/examples/identity.yaml): `OCI_TENANCY_OCID`,
 `OCI_USER_OCID`, `OCI_FINGERPRINT`, `OCI_PRIVATE_KEY_PATH` and the PEM key as
 a file key. The region comes from `region`, never from the identity.
 
@@ -277,7 +305,7 @@ create a new cluster.
 ## Examples
 
 Variables on a `TerraformCluster`, as in
-[`examples/cluster-kubeadm.yaml`](examples/cluster-kubeadm.yaml):
+[`examples/cluster-kubeadm.yaml`](https://github.com/captf-io/terraform-oci-cluster/blob/main/examples/cluster-kubeadm.yaml):
 
 ```yaml
 spec:
