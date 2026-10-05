@@ -1,25 +1,51 @@
-# terraform-oci-cluster
+<h1 align="center">
+  <a href="https://captf.io/"><img
+    src="https://captf.io/assets/readme/mark.svg"
+    width="72" height="72" alt="CAPTF"></a>
+  <br>
+  terraform-oci-cluster
+</h1>
+
+<p align="center">The CAPTF cluster module for Oracle Cloud</p>
+
+<p align="center">
+  <a href="https://github.com/captf-io/terraform-oci-cluster/actions/workflows/ci.yml"><img
+    src="https://img.shields.io/github/actions/workflow/status/captf-io/terraform-oci-cluster/ci.yml?branch=main&amp;label=build&amp;labelColor=161B3A&amp;style=flat-square"
+    alt="build"></a>
+  <a href="https://captf.io/docs/module-author/contract/index.html"><img
+    src="https://img.shields.io/static/v1?label=contract&amp;message=v1alpha1&amp;color=A974FF&amp;labelColor=161B3A&amp;style=flat-square"
+    alt="contract v1alpha1"></a>
+  <a href="https://captf.io/docs/"><img
+    src="https://img.shields.io/static/v1?label=docs&amp;message=captf.io&amp;color=5B8CFF&amp;labelColor=161B3A&amp;style=flat-square"
+    alt="docs captf.io"></a>
+  <a href="https://github.com/captf-io/terraform-oci-cluster/blob/main/LICENSE.md"><img
+    src="https://img.shields.io/static/v1?label=license&amp;message=Apache-2.0&amp;color=FFD84D&amp;labelColor=161B3A&amp;style=flat-square"
+    alt="license Apache-2.0"></a>
+</p>
+
+> [!NOTE]
+> **Pre-release.** CAPTF is `v1alpha1`: its API and its
+> [module contract](https://captf.io/docs/module-author/contract/index.html)
+> may still change between releases.
 
 The CAPTF Oracle Cloud (OCI) cluster module: the Terraform/OpenTofu root module
-behind `TerraformCluster`. It is run by the CAPTF runner inside a module image, with
-`captf_*` inputs injected; it is not a general-purpose child module. Images
-are published from [oci-modules](https://github.com/captf-io/oci-modules) as `ghcr.io/captf-io/oci-cluster`.
+behind `TerraformCluster`, implementing the
+[cluster role](https://captf.io/docs/module-author/contract/v1alpha1/cluster.html)
+of the module contract. It creates the cluster-wide pieces a
+`TerraformCluster` owns on a network you bring: the network security groups
+of the nodes, the API endpoint (a network load balancer) and the nodes'
+instance-principal identity. It hands everything machines and pools need to
+them through `exports`.
 
-The `cluster` role for Oracle Cloud Infrastructure: the cluster-wide pieces a
-`TerraformCluster` owns on a network you bring. It creates the network
-security groups of the nodes, the API endpoint (a network load balancer) and
-the nodes' instance-principal identity, and hands everything machines and
-pools need to them through `exports`.
+The module image is `ghcr.io/captf-io/oci-cluster`, published from
+[oci-modules](https://github.com/captf-io/oci-modules). Design decisions are
+in [DESIGN.md](https://github.com/captf-io/terraform-oci-cluster/blob/main/DESIGN.md).
 
-Image: `ghcr.io/captf-io/oci-cluster`. Contract:
-[cluster role](https://captf.io/docs/module-author/contract/v1alpha1/cluster.html).
-Design decisions: [DESIGN.md](https://github.com/captf-io/terraform-oci-cluster/blob/main/DESIGN.md).
+## Using it
 
-## Usage
-
-CAPTF runs this module from the module image `ghcr.io/captf-io/oci-cluster`: set the image on
-a `TerraformCluster`'s `spec.source.image`, and the controller renders every
-input. The module is also published to the Terraform Registry as
+CAPTF runs this module from the module image `ghcr.io/captf-io/oci-cluster`: set
+the image on a `TerraformCluster`'s `spec.source.image`, and the controller
+renders every input. The module is also published to the Terraform Registry as
 `captf-io/cluster/oci` and can be called directly:
 
 ```hcl
@@ -320,7 +346,7 @@ spec:
         key: cluster
 ```
 
-## Development
+## Developing
 
 The host needs `make`, `podman` (or `docker` with `ENGINE=docker`), `jq` and
 Go; every other tool runs in a container pinned by digest. `make verify` is
@@ -347,3 +373,29 @@ the gate. Override variables on the command line, for example
 `PROVIDER_DIR` (default `../cluster-api-provider-terraform`). The repository
 holds the code only: the module images are built and published from
 [oci-modules](https://github.com/captf-io/oci-modules).
+
+<br>
+<p align="center">
+  <img
+    src="https://captf.io/assets/readme/divider.svg"
+    width="100%" height="4" alt="">
+</p>
+<p align="center">
+  <a href="https://captf.io/"><img
+    src="https://captf.io/assets/readme/mark.svg"
+    width="40" height="40" alt="CAPTF"></a>
+  <br>
+  <a href="https://captf.io/docs/"
+    ><b>Documentation</b></a> ·
+  <a href="https://captf.io/docs/getting-started/quick-start.html"
+    ><b>Quick start</b></a> ·
+  <a href="https://github.com/captf-io/.github/blob/main/CONTRIBUTING.md"
+    ><b>Contributing</b></a> ·
+  <a href="https://github.com/captf-io/.github/blob/main/SECURITY.md"
+    ><b>Security</b></a>
+  <br>
+  <sub>Built for
+    <a href="https://cluster-api.sigs.k8s.io/">Cluster API</a>.
+    <a href="https://github.com/captf-io/terraform-oci-cluster/blob/main/LICENSE.md"
+    >Apache 2.0</a>.</sub>
+</p>
