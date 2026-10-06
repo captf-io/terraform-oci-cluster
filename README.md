@@ -229,7 +229,7 @@ An externally managed `TerraformCluster` gives machines and pools `{}`; set
 
 ## Identity Secret
 
-See the [archived oci-modules README](https://github.com/captf-io/oci-modules#using-it) and
+See the [OCI cloud modules docs](https://captf.io/docs/cloud-modules/oci/) and
 [`examples/identity.yaml`](https://github.com/captf-io/terraform-oci-cluster/blob/main/examples/identity.yaml): `OCI_TENANCY_OCID`,
 `OCI_USER_OCID`, `OCI_FINGERPRINT`, `OCI_PRIVATE_KEY_PATH` and the PEM key as
 a file key. The region comes from `region`, never from the identity.
