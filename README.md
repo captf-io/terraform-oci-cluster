@@ -37,13 +37,13 @@ of the nodes, the API endpoint (a network load balancer) and the nodes'
 instance-principal identity. It hands everything machines and pools need to
 them through `exports`.
 
-The module image is `ghcr.io/captf-io/oci-cluster`, published from
-[oci-modules](https://github.com/captf-io/oci-modules). Design decisions are
+The module image is `ghcr.io/captf-io/module-images/oci-cluster`, built and published by
+[module-images](https://github.com/captf-io/module-images) from this repository's releases. Design decisions are
 in [DESIGN.md](https://github.com/captf-io/terraform-oci-cluster/blob/main/DESIGN.md).
 
 ## Using it
 
-CAPTF runs this module from the module image `ghcr.io/captf-io/oci-cluster`: set
+CAPTF runs this module from the module image `ghcr.io/captf-io/module-images/oci-cluster`: set
 the image on a `TerraformCluster`'s `spec.source.image`, and the controller
 renders every input. The module is also published to the Terraform Registry as
 `captf-io/cluster/oci` and can be called directly:
@@ -229,7 +229,7 @@ An externally managed `TerraformCluster` gives machines and pools `{}`; set
 
 ## Identity Secret
 
-See the [oci-modules README](https://github.com/captf-io/oci-modules#using-it) and
+See the [archived oci-modules README](https://github.com/captf-io/oci-modules#using-it) and
 [`examples/identity.yaml`](https://github.com/captf-io/terraform-oci-cluster/blob/main/examples/identity.yaml): `OCI_TENANCY_OCID`,
 `OCI_USER_OCID`, `OCI_FINGERPRINT`, `OCI_PRIVATE_KEY_PATH` and the PEM key as
 a file key. The region comes from `region`, never from the identity.
@@ -371,8 +371,8 @@ the gate. Override variables on the command line, for example
 
 `tfcapi-lint` is built from the provider repository, found through
 `PROVIDER_DIR` (default `../cluster-api-provider-terraform`). The repository
-holds the code only: the module images are built and published from
-[oci-modules](https://github.com/captf-io/oci-modules).
+holds the code only: the module images are built and published by
+[module-images](https://github.com/captf-io/module-images) from this repository's releases.
 
 <br>
 <p align="center">
